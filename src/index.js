@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const compression = require("compression");
 const helmet = require("helmet");
 require("dotenv").config();
+const userRoutes = require("./routes/user");
 
 //initialize express
 const app = express();
@@ -14,9 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/", userRoutes);
 
 // server listening
 const PORT = process.env.PORT || 7022;
