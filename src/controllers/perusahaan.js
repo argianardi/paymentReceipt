@@ -25,4 +25,26 @@ controllerPerusahaans.post = async (req, res) => {
   }
 };
 
+// get all data
+controllerPerusahaans.getAll = async (req, res) => {
+  try {
+    const perusahaans = await models.perusahaan.findAll();
+    if (perusahaans.length > 0) {
+      res.status(200).json({
+        message: "Semua perusahaan berhasil ditemukan",
+        data: perusahaans,
+      });
+    } else {
+      res.status(404).json({
+        message: "Data perusahaan tidak ditemukan",
+        data: [],
+      });
+    }
+  } catch (error) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = controllerPerusahaans;
