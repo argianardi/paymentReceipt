@@ -4,6 +4,7 @@ const compression = require("compression");
 const helmet = require("helmet");
 require("dotenv").config();
 const userRoutes = require("./routes/user");
+const perusahaanRoutes = require("./routes/perusahaan");
 
 //initialize express
 const app = express();
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
 app.use("/", userRoutes);
+app.use("/", perusahaanRoutes);
 
 // server listening
 const PORT = process.env.PORT || 7022;
