@@ -5,6 +5,7 @@ const helmet = require("helmet");
 require("dotenv").config();
 const userRoutes = require("./routes/user");
 const perusahaanRoutes = require("./routes/perusahaan");
+const barangRoutes = require("./routes/barang");
 
 //initialize express
 const app = express();
@@ -18,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use("/", userRoutes);
 app.use("/", perusahaanRoutes);
+app.use("/", barangRoutes);
 
 // server listening
 const PORT = process.env.PORT || 7022;
