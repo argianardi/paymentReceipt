@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const db = require("../database/database");
 
-const users = db.define(
-  "users",
+const user = db.define(
+  "user",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -37,4 +37,4 @@ db.sync({ alter: true })
     console.log("Unable to create user table:", error.message);
   });
 
-module.exports = users;
+module.exports = user;
