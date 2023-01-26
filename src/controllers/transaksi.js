@@ -28,4 +28,39 @@ controllerTransaksis.post = async (req, res) => {
   }
 };
 
+// get all data request
+controllerTransaksis.getAll = async (req, res) => {
+  await models.transaksi.hasOne(models.perusahaan, {
+    sourceKey: "id_perusahaan",
+    foreignKey: {
+      name: "id",
+      allowNull: true,
+    },
+  });
+
+  try {
+    const transaksis = await models.transaksi.findAll({
+      include: [{ model: models.perusahaan }],
+    });
+    if (transaksis.length > 0) {
+      res.status(200).json({
+        succes: true,
+        message: "Semua data transaksi ditemukan",
+        data: transaksis,
+      });
+    } else {
+      res.status(404).json({
+        succes: false,
+        message: "Data transaksi tidak ditemukan",
+        data: [],
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      succes: false,
+      message: "internal server error",
+    });
+  }
+};
+
 module.exports = controllerTransaksis;
