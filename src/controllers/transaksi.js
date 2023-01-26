@@ -3,13 +3,31 @@ const controllerTransaksis = {};
 
 // post request
 controllerTransaksis.post = async (req, res) => {
-  const { id_perusahaan, id_barang, total_barang, grand_total } = req.body;
+  const { id_perusahaan, id_barang, total_barang } = req.body;
 
-  if (!(id_perusahaan && id_barang && total_barang && grand_total)) {
+  if (!(id_perusahaan && id_barang && total_barang)) {
     return res.status(400).json({
       message: "Data belum lengkap",
     });
   }
+
+  // get harga barang and calculate grand_total
+  const barang = await models.barang.findAll({ where: { id: id_barang } });
+  let grand_total = barang[0].dataValues.harga * total_barang;
+
+  // update stock barang
+  let currentStock = barang[0].dataValues.stock;
+  let updatedStock = currentStock - total_barang;
+  const updateBarang = await models.barang.update(
+    {
+      stock: updatedStock,
+    },
+    {
+      where: {
+        id: id_barang,
+      },
+    }
+  );
 
   try {
     const transaksi = await models.transaksi.create({
