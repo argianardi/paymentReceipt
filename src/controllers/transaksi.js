@@ -38,9 +38,17 @@ controllerTransaksis.getAll = async (req, res) => {
     },
   });
 
+  await models.transaksi.hasOne(models.barang, {
+    sourceKey: "id_barang",
+    foreignKey: {
+      name: "id",
+      allowNull: true,
+    },
+  });
+
   try {
     const transaksis = await models.transaksi.findAll({
-      include: [{ model: models.perusahaan }],
+      include: [{ model: models.perusahaan }, { model: models.barang }],
     });
     if (transaksis.length > 0) {
       res.status(200).json({
