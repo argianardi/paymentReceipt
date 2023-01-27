@@ -7,6 +7,7 @@ controllerBarangs.post = async (req, res) => {
 
   if (!(nama_barang && harga && stock)) {
     return res.status(400).json({
+      success: false,
       message: "Data belum lengkap",
     });
   }
@@ -18,10 +19,12 @@ controllerBarangs.post = async (req, res) => {
       stock,
     });
     res.status(201).json({
+      success: true,
       message: "Barang berhasil ditambahkan",
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: "Internal server error",
     });
   }
@@ -33,17 +36,20 @@ controllerBarangs.getAll = async (req, res) => {
     const barangs = await models.barang.findAll();
     if (barangs.length > 0) {
       res.status(200).json({
+        success: true,
         message: "Semua barang berhasil ditemukan",
         data: barangs,
       });
     } else {
       res.status(404).json({
+        success: false,
         message: "Data barang tidak ditemukan",
         data: [],
       });
     }
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: "Internal server error",
     });
   }
