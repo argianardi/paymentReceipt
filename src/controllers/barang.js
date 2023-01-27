@@ -21,8 +21,8 @@ controllerBarangs.post = async (req, res) => {
       message: "Barang berhasil ditambahkan",
     });
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
+    res.status(500).json({
+      message: "Internal server error",
     });
   }
 };
@@ -43,8 +43,8 @@ controllerBarangs.getAll = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
+    res.status(500).json({
+      message: "Internal server error",
     });
   }
 };
