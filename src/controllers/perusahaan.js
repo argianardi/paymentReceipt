@@ -19,8 +19,8 @@ controllerPerusahaans.post = async (req, res) => {
       message: "Perusahaan berhasil ditambahkan",
     });
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
+    res.status(500).json({
+      message: "Internal server error",
     });
   }
 };
@@ -41,8 +41,8 @@ controllerPerusahaans.getAll = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
+    res.status(500).json({
+      message: "Internal server error",
     });
   }
 };
