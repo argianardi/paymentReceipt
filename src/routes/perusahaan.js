@@ -1,8 +1,17 @@
-const express = require("express"); //import express
-const router = express.Router(); //include express router
-const controllers = require("../controllers/index"); //import projects controllers
+const express = require("express");
+const router = express.Router();
+const controllers = require("../controllers/index");
+const validateAuth = require("../middlewares/validateAuth");
 
-router.post("/perusahaan", controllers.perusahaan.post);
-router.get("/perusahaan", controllers.perusahaan.getAll);
+router.post(
+  "/perusahaan",
+  validateAuth.isAuthenticated,
+  controllers.perusahaan.post
+);
+router.get(
+  "/perusahaan",
+  validateAuth.isAuthenticated,
+  controllers.perusahaan.getAll
+);
 
 module.exports = router;

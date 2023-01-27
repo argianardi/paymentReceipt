@@ -1,8 +1,9 @@
-const express = require("express"); //import express
-const router = express.Router(); //include express router
-const controllers = require("../controllers/index"); //import projects controllers
+const express = require("express");
+const router = express.Router();
+const controllers = require("../controllers/index");
+const validateAuth = require("../middlewares/validateAuth");
 
-router.post("/barang", controllers.barang.post);
-router.get("/barang", controllers.barang.getAll);
+router.post("/barang", validateAuth.isAuthenticated, controllers.barang.post);
+router.get("/barang", validateAuth.isAuthenticated, controllers.barang.getAll);
 
 module.exports = router;

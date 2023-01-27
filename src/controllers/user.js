@@ -9,7 +9,7 @@ controllerUsers.register = async (req, res) => {
   if (!(nama && username && email && password)) {
     return res.status(400).json({
       false: false,
-      message: "Bad Request: some input are required",
+      message: "Bad Request: data belum lengkap",
     });
   }
 
@@ -20,7 +20,7 @@ controllerUsers.register = async (req, res) => {
   if (user.length > 0) {
     return res.status(400).json({
       success: false,
-      message: "The username is already registered!!",
+      message: "Username sudah pernah digunakan",
     });
   } else {
     // encrypt password
@@ -36,7 +36,7 @@ controllerUsers.register = async (req, res) => {
       });
       res.status(201).json({
         success: false,
-        message: "Registered successfully",
+        message: "Berhasil terdaftar",
       });
     } catch (error) {
       res.status(500).json({
@@ -53,7 +53,7 @@ controllerUsers.login = async (req, res) => {
   if (!(username && password)) {
     return res.status(400).json({
       success: false,
-      message: "Bad request: some input are required",
+      message: "Bad request: data belum lengkap",
     });
   }
 
@@ -87,20 +87,19 @@ controllerUsers.login = async (req, res) => {
       } else {
         res.status(400).json({
           success: false,
-          message: "Bad request: password doesn't match",
+          message: "Bad request: password salah",
         });
       }
     } else {
       res.status(400).json({
         success: false,
-        message: "Bad request: the User not registered",
+        message: "Bad request: user belum terdaftar",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
-      //   "Internal server error",
+      message: "Internal server error",
     });
   }
 };

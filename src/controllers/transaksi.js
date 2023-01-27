@@ -9,13 +9,34 @@ controllerTransaksis.post = async (req, res) => {
 
   if (!(id_perusahaan && id_barang && total_barang)) {
     return res.status(400).json({
+      succes: false,
       message: "Data belum lengkap",
     });
   }
 
-  // get harga barang and calculate grand_total
+  // get harga barang
   const barang = await models.barang.findAll({ where: { id: id_barang } });
-  let grand_total = barang[0].dataValues.harga * total_barang;
+  const harga_barang = barang[0].dataValues.harga;
+
+  // get stock barang
+  const stockBarang = barang[0].dataValues.stock;
+  // If empty stock
+  if (stockBarang < 1) {
+    return res.status(400).json({
+      succes: false,
+      message: "Stock barang kosong",
+    });
+  }
+  // If stock is lacking
+  if (stockBarang < total_barang) {
+    return res.status(400).json({
+      succes: false,
+      message: "Stock barang tidak cukup",
+    });
+  }
+
+  // calculate grand_total
+  let grand_total = harga_barang * total_barang;
 
   // update stock barang
   let currentStock = barang[0].dataValues.stock;
@@ -39,11 +60,13 @@ controllerTransaksis.post = async (req, res) => {
       grand_total,
     });
     res.status(201).json({
+      succes: true,
       message: "Transaksi berhasil ditambahkan",
     });
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
+    res.status(500).json({
+      succes: "false",
+      message: "Internal server error",
     });
   }
 };
@@ -157,8 +180,7 @@ controllerTransaksis.exportCSV = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       succes: false,
-      message: error.message,
-      // "internal server error",
+      message: "internal server error",
     });
   }
 };
